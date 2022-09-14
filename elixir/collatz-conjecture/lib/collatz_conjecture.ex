@@ -10,18 +10,15 @@ defmodule CollatzConjecture do
     do_calc(input, 0)
   end
 
-  defp do_calc(n, _) when n <= 0, do: raise FunctionClauseError
-  defp do_calc(s, _) when is_bitstring(s), do: raise FunctionClauseError
-
   defp do_calc(1, steps) do
     steps
   end
 
-  defp do_calc(n, steps) when rem(n, 2) == 0 do
+  defp do_calc(n, steps) when n > 0 and rem(n, 2) == 0 do
     do_calc(div(n, 2), steps + 1)
   end
 
-  defp do_calc(n, steps) when rem(n, 2) != 0 do
+  defp do_calc(n, steps) when n > 0 and rem(n, 2) != 0 do
     do_calc(3 * n + 1, steps + 1)
   end
 end
