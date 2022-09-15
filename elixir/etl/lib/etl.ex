@@ -9,11 +9,10 @@ defmodule ETL do
   """
   @spec transform(map) :: map
   def transform(input) do
-    Enum.reduce(input, %{}, fn {score, letters}, acc ->
-      Map.merge(
-        acc,
-        Enum.reduce(letters, %{}, fn letter, a -> Map.put(a, String.downcase(letter), score) end)
-      )
-    end)
+    for {score, letters} <- input,
+        letter <- letters,
+        into: %{} do
+      {String.downcase(letter), score}
+    end
   end
 end
