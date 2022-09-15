@@ -9,5 +9,10 @@ defmodule Hamming do
   """
   @spec hamming_distance([char], [char]) :: {:ok, non_neg_integer} | {:error, String.t()}
   def hamming_distance(strand1, strand2) do
+    if length(strand1) != length(strand2) do
+      {:error, "strands must be of equal length"}
+    else
+      {:ok, Enum.zip_reduce(strand1, strand2, 0, fn x, y, d -> if x != y do d + 1 else d end end)}
+    end
   end
 end
