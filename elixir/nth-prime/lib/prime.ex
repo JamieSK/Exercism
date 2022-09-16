@@ -6,7 +6,7 @@ defmodule Prime do
   def nth(count) when is_integer(count) and count > 0 do
     2
     |> Stream.iterate(&(&1 + 1))
-    |> Stream.transform({[], 0}, fn i, {primes, found} ->
+    |> Enum.flat_map_reduce({[], 0}, fn i, {primes, found} ->
       if found < count do
         if Enum.any?(primes, fn p -> rem(i, p) == 0 end) do
           {[], {primes, found}}
@@ -14,10 +14,9 @@ defmodule Prime do
           {[i], {[i | primes], found + 1}}
         end
       else
-        {:halt, primes}
+        {:halt, i - 1}
       end
     end)
-    |> Enum.to_list()
-    |> List.last()
+    |> elem(1)
   end
 end
