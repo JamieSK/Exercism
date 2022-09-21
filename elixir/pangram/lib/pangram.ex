@@ -14,8 +14,10 @@ defmodule Pangram do
 
   @spec pangram?(String.t()) :: boolean
   def pangram?(sentence) do
-    Enum.reduce_while('sphinxofblackquartzjudgemyvow', String.downcase(sentence), fn c, string ->
-      if string =~ c do
+    "sphinxofblackquartzjudgemyvow"
+    |> String.split("")
+    |> Enum.reduce_while(String.downcase(sentence), fn c, string ->
+      if String.contains?(string, c) do
         {:cont, string}
       else
         {:halt, false}
