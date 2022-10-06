@@ -5,6 +5,14 @@ defmodule StringSeries do
   return an empty list.
   """
   @spec slices(s :: String.t(), size :: integer) :: list(String.t())
-  def slices(_s, _size) do
+  def slices(s, size) when size > byte_size(s), do: []
+  def slices(_, size) when size < 1, do: []
+
+  def slices(s, size) do
+    0..(String.length(s) - size)
+    |> Enum.reduce([], fn offset, substrings ->
+      [String.slice(s, offset..(offset + size - 1)) | substrings]
+    end)
+    |> Enum.reverse()
   end
 end
